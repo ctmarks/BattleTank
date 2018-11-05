@@ -30,8 +30,14 @@ public:
 	// where the crosshair intersects the world
 	void AimTowardsCrosshair();
 
+	bool GetLookDirection(FVector2D ScreenLocation, FVector & LookDirection) const;
+
 	bool GetSightRayHitLocation(OUT FVector&) const;
 
 private:
+	UPROPERTY(EditAnywhere)
+	float CrossHairXLocation = 0.5;
 
+	UPROPERTY(EditAnywhere)
+	float CrossHairYLocation = 0.33333;
 };
