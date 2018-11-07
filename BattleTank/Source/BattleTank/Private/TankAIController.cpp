@@ -10,7 +10,7 @@ void ATankAIController::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("AIController Begin Play"));
 
 	// Get the pointer to tank pawn that the player controller is possesing
-	ControlledTank = GetControlledTank();
+	auto ControlledTank = GetControlledTank();
 
 	/// Null check the pointer to controlled tank, print error if it isn't there
 	if (!ControlledTank)
@@ -23,7 +23,7 @@ void ATankAIController::BeginPlay()
 	}
 
 	// Get the pointer to the player controlled tank
-	PlayerTank = GetPlayerTank();
+	auto PlayerTank = GetPlayerTank();
 
 	/// Null check the pointer to the player controlled tank, print the success or error
 	if (!PlayerTank)
@@ -43,7 +43,7 @@ void ATankAIController::Tick(float DeltaTime)
 	{
 		if (GetControlledTank())
 		{
-			GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation);
+			GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 		}
 	}
 }
