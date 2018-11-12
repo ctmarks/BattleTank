@@ -15,7 +15,6 @@ ATankPlayerController::ATankPlayerController()
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
 
 	// Get the pointer to tank pawn that the player controller is possesing
 	auto ControlledTank = GetControlledTank();

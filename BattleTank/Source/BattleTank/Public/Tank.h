@@ -16,20 +16,19 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	UTankAimingComponent* TankAimingComponent = nullptr;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BluePrintCallable, Category = Setup)
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+		void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:
 	// Called to bind functionality to input
@@ -37,5 +36,4 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100000; // Sensible starting value of 1000 m/s
-
 };
