@@ -1,8 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
-#include "TankBarrel.h"
+#include "TankBarrel.h" // TODO Replace this with a forward class declaration
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
 #include "Classes/Kismet/GameplayStatics.h"
 #include "Classes/Kismet/GameplayStaticsTypes.h"
 #include "Components/StaticMeshComponent.h"
@@ -53,6 +54,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
+		false,
+		0,
+		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
@@ -60,6 +64,14 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
+
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f Aim solution found"), Time);
+	}
+	else
+	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f No aim solution found"), Time);
 	}
 }
 
