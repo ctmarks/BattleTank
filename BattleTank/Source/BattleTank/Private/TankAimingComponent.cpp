@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
-#include "TankBarrel.h" // TODO Replace this with a forward class declaration
+#include "TankBarrel.h"
+#include "TankTurret.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "Classes/Kismet/GameplayStatics.h"
@@ -31,6 +32,11 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
 }
 
 // Called every frame
@@ -63,6 +69,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	if (bHaveAimSolution)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		MoveTurretTowards(AimDirection);
 		MoveBarrelTowards(AimDirection);
 	}
 	else
@@ -79,4 +86,18 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	// Work out difference between current barrel rotation, and aim direction
 	Barrel->Elevate(DeltaRotator.Pitch); // TODO remove magic number
 }
+
+void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
+{
+	// Get Current Turret Rotation based on forward vector
+	// Get the rotation of the aim direction
+	// Get the difference between the aim at rotation and the turret rotation
+	auto TurretRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - TurretRotator;
+	// Work out difference between current barrel rotation, and aim direction
+	Turret->Rotate(DeltaRotator.Yaw);
+}
+
+
 
