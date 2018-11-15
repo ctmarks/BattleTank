@@ -28,6 +28,9 @@ public:
 	UFUNCTION(BluePrintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	UFUNCTION(BluePrintCallable, Category = Setup)
+	void Fire();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,5 +42,5 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;	
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000; // Sensible starting value of 1000 m/s
+	float LaunchSpeed = 10000; // Sensible starting value of 1000 m/s
 };
