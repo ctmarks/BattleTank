@@ -1,64 +1,34 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-#include "Tank.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
+#include "Tank.h"
+
 
 // Called at the start of the game
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("AIController Begin Play"));
-
-	// Get the pointer to tank pawn that the player controller is possesing
-	auto ControlledTank = GetControlledTank();
-
-	/// Null check the pointer to controlled tank, print error if it isn't there
-	if (!ControlledTank)
-	{
-		UE_LOG(LogTemp, Error, TEXT("AIController not controlling a Tank"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AIController possesing: %s"), *ControlledTank->GetName());
-	}
-
-	// Get the pointer to the player controlled tank
-	auto PlayerTank = GetPlayerTank();
-
-	/// Null check the pointer to the player controlled tank, print the success or error
-	if (!PlayerTank)
-	{
-		UE_LOG(LogTemp, Error, TEXT("AIController can't find player tank"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AIController found player tank: %s"), *PlayerTank->GetName());
-	}
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (GetPlayerTank())
-	{
-		if (GetControlledTank())
-		{
-			GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
-		}
-	}
-}
+	// Get reference to controlled tank
+	auto Tank = Cast<ATank>(GetPawn());
 
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
+	// If we can't find the tank exit out
+	if (!Tank) { return; }
 
-ATank* ATankAIController::GetPlayerTank() const
-{
-	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (!PlayerPawn) { return nullptr; }
-	return Cast<ATank>(PlayerPawn);
+	// Get the player's location this frame
+	auto PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+
+	// Aim at the player's location
+	Tank->AimAt(PlayerLocation);
+
+	// Shoot at the player
+	Tank->Fire();
 }
 
 
