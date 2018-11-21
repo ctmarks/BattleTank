@@ -18,17 +18,21 @@ void ATankAIController::Tick(float DeltaTime)
 	// Get reference to controlled tank
 	auto Tank = Cast<ATank>(GetPawn());
 
+	// Get the player's location this frame
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+
 	// If we can't find the tank exit out
 	if (!Tank) { return; }
 
-	// Get the player's location this frame
-	auto PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	if (PlayerTank)
+	{
+		// Aim at the player's location
+		Tank->AimAt(PlayerTank->GetActorLocation());
 
-	// Aim at the player's location
-	Tank->AimAt(PlayerLocation);
+		// Shoot at the player
+		Tank->Fire();
+	}
 
-	// Shoot at the player
-	Tank->Fire();
 }
 
 
