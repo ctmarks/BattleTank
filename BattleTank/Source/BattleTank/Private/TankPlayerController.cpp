@@ -16,19 +16,6 @@ ATankPlayerController::ATankPlayerController()
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// Get the pointer to tank pawn that the player controller is possesing
-	auto ControlledTank = GetControlledTank();
-
-	// Print the pointer if it isn't equal to nullptr
-	if (!ControlledTank)
-	{
-		UE_LOG(LogTemp, Error, TEXT("PlayerController not controlling a Tank"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController possesing: %s"), *ControlledTank->GetName());
-	}
 }
 
 // Called every frame
