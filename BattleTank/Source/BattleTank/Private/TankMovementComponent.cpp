@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright EmbraceIT Ltd.
 
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
@@ -35,4 +35,5 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 
 	auto RotationThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
 	IntendRotateClockwise(RotationThrow);
+	UE_LOG(LogTemp, Warning, TEXT("Right: %f, Forward: %f"), RotationThrow, ForwardThrow)
 }
