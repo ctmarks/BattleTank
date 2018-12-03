@@ -12,20 +12,21 @@ void UTankMovementComponent::InitializeMovementComponent(UTankTrack* LeftTrackTo
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
 
 void UTankMovementComponent::IntendRotateClockwise(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure (LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
+	UE_LOG(LogTemp, Warning, TEXT("I'm Here"))
 	// No need to call super as we're replacing the functionality
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
@@ -35,5 +36,4 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 
 	auto RotationThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
 	IntendRotateClockwise(RotationThrow);
-	UE_LOG(LogTemp, Warning, TEXT("Right: %f, Forward: %f"), RotationThrow, ForwardThrow)
 }

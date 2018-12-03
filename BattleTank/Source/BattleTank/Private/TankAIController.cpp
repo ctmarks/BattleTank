@@ -22,15 +22,17 @@ void ATankAIController::Tick(float DeltaTime)
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 
 	// If we can't find the tank exit out
-	if (!Tank) { return; }
+	if (!ensure (Tank)) { return; }
 
-	if (PlayerTank)
+	if (ensure (PlayerTank))
 	{
 		// Move towards the player
 		MoveToActor(PlayerTank, AcceptanceRadius); // Check radius is in cm
 
 		// Aim at the player's location
 		Tank->AimAt(PlayerTank->GetActorLocation());
+
+
 
 		// Shoot at the player
 		//Tank->Fire();
