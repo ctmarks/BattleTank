@@ -11,7 +11,6 @@
  */
 
 // Forward declarations
-class ATank;
 class UTankAimingComponent;
 
 UCLASS()
@@ -24,9 +23,6 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef);

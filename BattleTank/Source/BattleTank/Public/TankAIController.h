@@ -26,5 +26,5 @@ public:
 private:
 	// How close can the AI tank get
 	UPROPERTY(EditDefaultsOnly)
-	float AcceptanceRadius = 1;
+	float AcceptanceRadius = 3000;
 };

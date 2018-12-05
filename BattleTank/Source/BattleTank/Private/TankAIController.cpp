@@ -3,6 +3,7 @@
 #include "TankAIController.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 
@@ -16,26 +17,25 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	// Get reference to controlled tank
-	auto Tank = Cast<ATank>(GetPawn());
+	auto Tank = GetPawn();
 
 	// Get the player's location this frame
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 
-	// If we can't find the tank exit out
-	if (!ensure (Tank)) { return; }
-
-	if (ensure (PlayerTank))
+	if (!ensure (PlayerTank && Tank))
 	{
 		// Move towards the player
 		MoveToActor(PlayerTank, AcceptanceRadius); // Check radius is in cm
-
+		
+		auto AimingComponent = Tank->FindComponentByClass<UTankAimingComponent>();
+		if (!ensure(AimingComponent)) { return; }
 		// Aim at the player's location
-		Tank->AimAt(PlayerTank->GetActorLocation());
+		AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
 
 
 		// Shoot at the player
-		//Tank->Fire();
+		AimingComponent->Fire();
 	}
 
 }
