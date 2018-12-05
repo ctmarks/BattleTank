@@ -1,10 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-#include "Engine/World.h"
-#include "Kismet/GameplayStatics.h"
+//#include "Engine/World.h"
+//#include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 
 
 // Called at the start of the game
@@ -21,9 +20,10 @@ void ATankAIController::Tick(float DeltaTime)
 
 	// Get the player's location this frame
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
-
-	if (!ensure (PlayerTank && Tank))
+	if (ensure (PlayerTank && Tank))
 	{
+		
+
 		// Move towards the player
 		MoveToActor(PlayerTank, AcceptanceRadius); // Check radius is in cm
 		

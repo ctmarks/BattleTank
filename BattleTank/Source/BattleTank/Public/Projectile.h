@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "GameFramework/ProjectileMovementComponent.h"
 #include "Projectile.generated.h"
+
+class UProjectileMovementComponent;
 
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
