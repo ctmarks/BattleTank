@@ -4,11 +4,8 @@
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Projectile.h"
-//#include "GameFramework/Actor.h"
-//#include "Engine/World.h"
 #include "Classes/Kismet/GameplayStatics.h"
 #include "Classes/Kismet/GameplayStaticsTypes.h"
-//#include "Components/StaticMeshComponent.h"
 
 
 // Sets default values for this component's properties
@@ -27,7 +24,6 @@ void UTankAimingComponent::BeginPlay()
 	Super::BeginPlay();
 	
 	// ...
-	
 }
 
 void UTankAimingComponent::InitializeAimingComponent(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
