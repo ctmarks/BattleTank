@@ -47,6 +47,8 @@ protected:
 	EFiringStatus FiringState = EFiringStatus::Reloading;
 
 private:
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 10000; // Sensible starting value of 1000 m/s
 
