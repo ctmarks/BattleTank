@@ -63,6 +63,10 @@ private:
 
 	void MoveTurretTowards(FVector AimDirection);
 
+	bool IsBarrelMoving();
+
+	FVector AimDirection = FVector(0);
+
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float ReloadTimeInSeconds = 3;
 
