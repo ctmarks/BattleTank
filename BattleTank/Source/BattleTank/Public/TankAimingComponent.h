@@ -36,6 +36,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
+	EFiringStatus GetFiringState() const;
+
 	// TODO Add set turret reference
 	void AimAt(FVector HitLocation);
 
