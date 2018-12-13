@@ -30,23 +30,26 @@ private:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
-	UPROPERTY(VisibleAnywhere)
-	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
+	void OnTimerExpire();
 
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* CollisionMesh = nullptr;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ProjectileDamage = 20.0f;
 
-	UPROPERTY(VisibleAnywhere)
-	UParticleSystemComponent* LaunchBlast = nullptr;
-
-	UPROPERTY(VisibleAnywhere)
-	UParticleSystemComponent* ImpactBlast = nullptr;
-
-	UPROPERTY(VisibleAnywhere)
-	URadialForceComponent* ExplosionForce = nullptr;
-
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float DestroyDelay = 1;
 
-	void OnTimerExpire();
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UStaticMeshComponent* CollisionMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UParticleSystemComponent* LaunchBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UParticleSystemComponent* ImpactBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	URadialForceComponent* ExplosionForce = nullptr;
 };
