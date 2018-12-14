@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
+
+
 // Forward declarations
 
 UCLASS()
@@ -21,6 +24,8 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealthPercentage() const;
+
+	FTankDelegate OnDeath;
 
 protected:
 
