@@ -2,6 +2,11 @@
 
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
+#include "GameFramework/Pawn.h"
+#include "CollisionQueryParams.h"
+#include "Engine/World.h"
+#include "Tank.h"
+
 
 // Sets default values
 ATankPlayerController::ATankPlayerController()
@@ -25,6 +30,24 @@ void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AimTowardsCrosshair();
+}
+
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		// Subscribe our local method to the tank's death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+	}
+}
+
+void ATankPlayerController::OnPossessedTankDeath()
+{
+	StartSpectatingOnly();
 }
 
 void ATankPlayerController::AimTowardsCrosshair()
@@ -51,21 +74,20 @@ bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) con
 		ViewportSizeY * CrossHairYLocation
 	);
 
-	// De-project the screen position of the crosshair to a world direction
+	/// De-project the screen position of the crosshair to a world direction
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
+		// Line-trace along that look direction, and see what we hit (up to a max range)
 		return GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
-	
-	// Line-trace along that look direction, and see what we hit (up to a max range)
 
 	return false;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
 {
-	FVector CameraWorldLocation; // To be discarded
+	FVector CameraWorldLocation; // To be discarded (an OUT parameter we don't end up using)
 	return DeprojectScreenPositionToWorld(
 		ScreenLocation.X,
 		ScreenLocation.Y,

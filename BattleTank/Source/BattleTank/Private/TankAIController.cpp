@@ -5,6 +5,7 @@
 #include "Engine/World.h"
 #include "GameFramework/Controller.h"
 #include "Tank.h"
+#include "GameFramework/Pawn.h"
 
 
 
@@ -17,17 +18,20 @@ void ATankAIController::BeginPlay()
 void ATankAIController::SetPawn(APawn* InPawn)
 {
 	Super::SetPawn(InPawn);
-	auto PossessedTank = Cast<ATank>(InPawn);
-	if (!ensure(PossessedTank)) { return; }
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
 
-	// Subscribe our local method to the tank's death event
-	PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
-	UE_LOG(LogTemp, Warning, TEXT("Subscribed"))
+		// Subscribe our local method to the tank's death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+	}
 }
 
 void ATankAIController::OnPossessedTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Tank death..."))
+	if (!GetPawn()) { return; }
+	GetPawn()->DetachFromControllerPendingDestroy();
 }
 
 void ATankAIController::Tick(float DeltaTime)
@@ -51,7 +55,7 @@ void ATankAIController::Tick(float DeltaTime)
 	if (AimingComponent->GetFiringState() == EFiringStatus::Locked)
 	{
 		// Shoot at the player
-		//AimingComponent->Fire();
+		AimingComponent->Fire();
 	}
 }
 

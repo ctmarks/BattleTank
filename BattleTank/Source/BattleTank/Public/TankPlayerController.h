@@ -30,8 +30,11 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	// Start the tank moving the barrel so that a shot would hit
-	// where the crosshair intersects the world
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
 	void AimTowardsCrosshair();
 
 	bool GetSightRayHitLocation(OUT FVector&) const;
