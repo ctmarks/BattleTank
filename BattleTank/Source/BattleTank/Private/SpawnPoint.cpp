@@ -15,20 +15,22 @@ USpawnPoint::USpawnPoint()
 }
 
 
+
+
 // Called when the game starts
 void USpawnPoint::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto NewActor = GetWorld()->SpawnActorDeferred<AActor>(
+	SpawnedWheel = GetWorld()->SpawnActorDeferred<AActor>(
 		SpawnClass, 
 		GetComponentTransform(), 
 		GetAttachmentRoot()->GetOwner()
 		);
 
-	if (!NewActor) { return; }
-	NewActor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
-	UGameplayStatics::FinishSpawningActor(NewActor, GetComponentTransform());
+	if (!SpawnedWheel) { return; }
+	SpawnedWheel->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
+	UGameplayStatics::FinishSpawningActor(SpawnedWheel, GetComponentTransform());
 }
 
 
@@ -40,3 +42,7 @@ void USpawnPoint::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	// ...
 }
 
+AActor* USpawnPoint::GetWheel() const
+{
+	return SpawnedWheel;
+}

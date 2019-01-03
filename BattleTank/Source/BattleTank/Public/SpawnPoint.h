@@ -17,6 +17,8 @@ public:
 	// Sets default values for this component's properties
 	USpawnPoint();
 
+	AActor* GetWheel() const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -29,4 +31,6 @@ private:
 	// Config
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AActor> SpawnClass;
+
+	AActor* SpawnedWheel = nullptr;
 };
